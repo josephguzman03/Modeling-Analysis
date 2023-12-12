@@ -106,6 +106,8 @@ For our Evaluation Metric, we decided to continue using Root Mean Squared Error 
 
 For our **Test Stastic**, we conducted Permutation tests based on the absolute difference in RMSE between Group X and Group Y. We decided to use **Significance Level (α)**: 0.05. 
 
+<iframe src="assets/Permutation_Test.html" width=800 height=600 frameBorder=0></iframe>
+
 The resulting p-value came out to be 0.841. With a p-value of 0.841, which is greater than the significance level of 0.05, we fail to reject the null hypothesis. There is not enough evidence to conclude that there is a significant difference in the average rating prediction performance between recipes with fewer than 10 ingredients and recipes with 10 or more ingredients.
 
 The resulting p-value came out to be 0.841. With a p-value of 0.841, which is greater than the significance level of 0.05, we fail to reject the null hypothesis. There is not enough evidence to conclude that there is a significant difference in the average rating prediction performance between recipes with fewer than 10 ingredients and recipes with 10 or more ingredients.
