@@ -44,6 +44,7 @@ The features used in the model are:
 Both of these features are numerical, so there are no ordinal or nominal features in this model. Therefore, no encoding was necessary.
 
 ## Model's Performance
+
 The performance of the model was evaluated using the *Root Mean Squared Error (RMSE)* metric. The RMSE value represents the standard deviation of the residuals (prediction errors). Lower values of RMSE indicate better fit.
 
 Whether the model is "good" or not depends on the specific RMSE value obtained. Generally, a lower RMSE value indicates a better fitting model. However, it's also important to compare this baseline model's performance with other more complex models to truly assess its goodness.
@@ -74,12 +75,12 @@ The chosen modeling algorithm is a **Random Forest Regressor**. Random Forest is
 
 Hyperparameters used on our model:
 
-*n_estimators*: The number of trees in the forest.
-*max_depth*: The maximum depth of the trees.
+**n_estimators**: The number of trees in the forest.
+**max_depth**: The maximum depth of the trees.
 
 Method for our Hyperparameter Selection:
 
-*GridSearchCV*: This method exhaustively searches through a specified hyperparameter grid, using cross-validation to evaluate each combination of hyperparameters. The combination that results in the best performance (in terms of negative mean squared error) on the training set is chosen.
+**GridSearchCV**: This method exhaustively searches through a specified hyperparameter grid, using cross-validation to evaluate each combination of hyperparameters. The combination that results in the best performance (in terms of negative mean squared error) on the training set is chosen.
 
 ## Model's Peformance
 
@@ -91,26 +92,30 @@ As mentioned earlier, the choice between a simpler model with slightly higher RM
 
 ---
 
-## Fairness Analysis 
+# Fairness Analysis 
+
+## Hypothesis Analysis
 
 When we looked over the data, we were interested in which feature would be affected more. We decided to dive into the fairness of the number of ingredients less than 10, and see if there is any affects when using our final models. 
-
-*Group X*: Recipes with a number of ingredients less than 10.
-*Group Y*: Recipes with a number of ingredients greater than or equal to 10.
-
-For our Evaluation Metric, we decided to continue using Root Mean Squared Error (RMSE). 
 
 **Null Hypothesis (H0)**: Our model is fair. The average rating prediction performance, as measured by RMSE, does not significantly differ between recipes with fewer than 10 ingredients (Group X) and recipes with 10 or more ingredients (Group Y). Any observed differences are likely due to chance.
 
 **Alternative Hypothesis (H1)**: Our model is not fair. The average rating prediction performance, as measured by RMSE, significantly differs between recipes with fewer than 10 ingredients (Group X) and recipes with 10 or more ingredients (Group Y). There is evidence that the model's accuracy is not consistent across these groups.
 
-For our **Test Stastic**, we conducted Permutation tests based on the absolute difference in RMSE between Group X and Group Y. We decided to use **Significance Level (α)**: 0.05. 
+*Group X*: Recipes with a number of ingredients less than 10.
+*Group Y*: Recipes with a number of ingredients greater than or equal to 10.
+
+For our Evaluation Metric, we decided to continue using Root Mean Squared Error (RMSE).
+
+For our ***Test Stastic***, we conducted Permutation tests based on the absolute difference in RMSE between Group X and Group Y. We decided to use ***Significance Level (α)***: 0.05.
+
+## Permutation Testing 
 
 <iframe src="assets/Permutation_Test.html" width=800 height=600 frameBorder=0></iframe>
 
-The resulting p-value came out to be 0.841. With a p-value of 0.841, which is greater than the significance level of 0.05, we fail to reject the null hypothesis. There is not enough evidence to conclude that there is a significant difference in the average rating prediction performance between recipes with fewer than 10 ingredients and recipes with 10 or more ingredients.
+The resulting p-value came out to be 0.888. With a p-value of 0.888, which is greater than the significance level of 0.05, we fail to reject the null hypothesis. There is not enough evidence to conclude that there is a significant difference in the average rating prediction performance between recipes with fewer than 10 ingredients and recipes with 10 or more ingredients.
 
-The resulting p-value came out to be 0.841. With a p-value of 0.841, which is greater than the significance level of 0.05, we fail to reject the null hypothesis. There is not enough evidence to conclude that there is a significant difference in the average rating prediction performance between recipes with fewer than 10 ingredients and recipes with 10 or more ingredients.
+The resulting p-value came out to be 0.888. With a p-value of 0.888, which is greater than the significance level of 0.05, we fail to reject the null hypothesis. There is not enough evidence to conclude that there is a significant difference in the average rating prediction performance between recipes with fewer than 10 ingredients and recipes with 10 or more ingredients.
 
 
 ---
