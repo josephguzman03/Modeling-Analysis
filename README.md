@@ -8,7 +8,7 @@ Writen by Aryan Shah & Joseph Guzman
 
 ---
 
-## Framing the Problem
+# Framing the Problem
 
 The prediction problem is to predict the ***average rating of a recipe based on its caloric content and the number of ingredients***. This is a regression problem as the response variable, `average_rating`, is continuous.
 
@@ -31,7 +31,9 @@ The prediction problem is to predict the ***average rating of a recipe based on 
 
 ---
 
-## Baseline Model
+# Baseline Model
+
+## Modeling Features
 
 The model used for this task is a simple **Linear Regression** model. Linear Regression is a basic and commonly used type of predictive analysis which usually works on the principle of linearity between dependent and independent variables.
 
@@ -41,6 +43,7 @@ The features used in the model are:
 `n_ingredients` - This is also a quantitative feature representing the number of ingredients in a recipe. It is a discrete variable.
 Both of these features are numerical, so there are no ordinal or nominal features in this model. Therefore, no encoding was necessary.
 
+## Model's Performance
 The performance of the model was evaluated using the *Root Mean Squared Error (RMSE)* metric. The RMSE value represents the standard deviation of the residuals (prediction errors). Lower values of RMSE indicate better fit.
 
 Whether the model is "good" or not depends on the specific RMSE value obtained. Generally, a lower RMSE value indicates a better fitting model. However, it's also important to compare this baseline model's performance with other more complex models to truly assess its goodness.
@@ -55,12 +58,61 @@ Remember, a simpler model with a slightly higher RMSE might be preferred over a 
 
 ---
 
-## Final Model
+# Final Model
+
+## Modeling Features
+
+In our final model, the features used for the prediction task are `calories`, `n_ingredients`, and `n_steps`. These features were chosen based on their relevance to the culinary context and their potential influence on the average rating of a recipe:
+
+Calories (`calories`): The caloric content of a recipe is a crucial factor as it directly relates to the nutritional aspect of the dish. Different individuals might have preferences for higher or lower-calorie meals, and this feature can capture those variations in taste.
+Number of Ingredients (`n_ingredients`): The complexity and diversity of a recipe can be reflected in the number of ingredients. More ingredients might contribute to a richer and potentially more flavorful dish, influencing the average rating.
+Number of Steps (`n_steps`): The number of steps in a recipe could indicate the level of intricacy or difficulty involved in preparing the dish. This complexity might affect the overall satisfaction of individuals preparing the recipe, thus impacting the average rating.
+
+Including these features is grounded in the assumption that factors like taste, complexity, and nutritional content play a role in determining how a recipe is rated.
+
+The chosen modeling algorithm is a **Random Forest Regressor**. Random Forest is an ensemble learning method that combines multiple decision trees to improve predictive performance and control overfitting.
+
+Hyperparameters used on our model:
+
+*n_estimators*: The number of trees in the forest.
+*max_depth*: The maximum depth of the trees.
+
+Method for our Hyperparameter Selection:
+
+*GridSearchCV*: This method exhaustively searches through a specified hyperparameter grid, using cross-validation to evaluate each combination of hyperparameters. The combination that results in the best performance (in terms of negative mean squared error) on the training set is chosen.
+
+## Model's Peformance
+
+To evaluate the Final Model's performance, the Root Mean Squared Error (RMSE) is used. The Baseline Model, which employed Linear Regression, had an RMSE of approximately 0.6422. The Final Model's RMSE, achieved using a Random Forest Regressor and optimized hyperparameters through GridSearchCV, is 0.6423142219305189.
+
+Comparing these RMSE values, we observe a slight increase in the RMSE for the Final Model compared to the Baseline Model. It's important to interpret this result considering the nature of the prediction task and the specific characteristics of the data. While a lower RMSE generally indicates better predictive accuracy, the small difference between the Baseline and Final Model's RMSE may suggest that the Random Forest model, despite its complexity, doesn't significantly outperform the simplicity of the Linear Regression baseline in this context.
+
+As mentioned earlier, the choice between a simpler model with slightly higher RMSE and a more complex model with slightly lower RMSE involves a trade-off between bias and variance. The final model's performance should be considered in the context of this trade-off, ensuring that it not only improves predictive accuracy but also generalizes well to new data and aligns with the goals of the predictive modeling task.
 
 ---
 
 ## Fairness Analysis 
 
+When we looked over the data, we were interested in which feature would be affected more. We decided to dive into the fairness of the number of ingredients less than 10, and see if there is any affects when using our final models. 
+
+*Group X*: Recipes with a number of ingredients less than 10.
+*Group Y*: Recipes with a number of ingredients greater than or equal to 10.
+
+For our Evaluation Metric, we decided to continue using Root Mean Squared Error (RMSE). 
+
+**Null Hypothesis (H0)**: Our model is fair. The average rating prediction performance, as measured by RMSE, does not significantly differ between recipes with fewer than 10 ingredients (Group X) and recipes with 10 or more ingredients (Group Y). Any observed differences are likely due to chance.
+
+**Alternative Hypothesis (H1)**: Our model is not fair. The average rating prediction performance, as measured by RMSE, significantly differs between recipes with fewer than 10 ingredients (Group X) and recipes with 10 or more ingredients (Group Y). There is evidence that the model's accuracy is not consistent across these groups.
+
+For our **Test Stastic**, we conducted Permutation tests based on the absolute difference in RMSE between Group X and Group Y. We decided to use **Significance Level (α)**: 0.05. 
+
+The resulting p-value came out to be 0.841. With a p-value of 0.841, which is greater than the significance level of 0.05, we fail to reject the null hypothesis. There is not enough evidence to conclude that there is a significant difference in the average rating prediction performance between recipes with fewer than 10 ingredients and recipes with 10 or more ingredients.
+
+The resulting p-value came out to be 0.841. With a p-value of 0.841, which is greater than the significance level of 0.05, we fail to reject the null hypothesis. There is not enough evidence to conclude that there is a significant difference in the average rating prediction performance between recipes with fewer than 10 ingredients and recipes with 10 or more ingredients.
+
+
 ---
 
 ## Conclusion
+
+In conclusion, our culinary data science exploration provides insights into the delicate balance between model complexity, predictive accuracy, and fairness. As we navigate this realm, we acknowledge the nuanced nature of statistical testing and emphasize that our conclusions are drawn within the bounds of our data, methodology, and inherent uncertainties associated with observational analyses.
